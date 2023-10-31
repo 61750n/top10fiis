@@ -1,16 +1,18 @@
 # PROGRAMA QUE IMPORTA A TABELA DE DADOS DE FIIS DO SITE FUNDAMENTUS, TRATA E CLASSIFICA AS EMPRESAS E EXPORTA PARA EXCEL
  
-#1) INSTALAÇÕES INICIAIS
+# 1) INSTALAÇÕES INICIAIS NO TERMINAL
 # pip install pandas
 # pip install selenium
 # pip install webdriver-manager
 # pip install lxml
+# pip install datetime
 
 # 2) IMPORTAÇÕES DAS BIBLIOTECAS
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
+import datetime
 
 # 3) ABRE NAVEGADOR --> ACESSA SITE
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
@@ -89,5 +91,11 @@ tabela = tabela.sort_values('ranking_total')
 #12) EXIBE AS 10 MELHORES AÇÕES:
 print(tabela.head(10))
 
-#13) EXPORTA PARA EXCEL
-tabela.to_excel('C:/Users/gilso/OneDrive/Programacao/FIIs e Acoes/top_10_fiis.xlsx', index=False)
+#13) OBTÉM A DATA ATUAL
+data_atual = datetime.datetime.today()
+
+#14) PREPARA O NOME DO ARQUIVO
+nome_arquivo = f"top_10_fiis_{data_atual.strftime('%Y-%m-%d')}.xlsx"
+
+#15) EXPORTA PARA EXCEL
+tabela.to_excel(f'{nome_arquivo}', index=False)
